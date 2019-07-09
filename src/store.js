@@ -1,12 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import getters from './getter';
 import User from './store/user';
 
 Vue.use(Vuex);
-
-const getters = {
-  token: state => state.user.token
-};
 
 export default new Vuex.Store({
   state: {},

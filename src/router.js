@@ -1,10 +1,11 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Login from './views/user/Login';
-import Register from './views/user/Register';
-import Manage from './views/user/Manage';
+import Vue from 'vue'
+import Router from 'vue-router'
+import Login from './views/user/Login'
+import Register from './views/user/Register'
+import Manage from './views/user/Manage'
+import store from './store'
 
-Vue.use(Router);
+Vue.use(Router)
 
 // 定义routes 配置
 const routes = [
@@ -13,7 +14,7 @@ const routes = [
     name: 'login',
     component: Login,
     meta: {
-      title: '登录',
+      title: '登录'
     }
   },
   {
@@ -33,9 +34,35 @@ const routes = [
       title: '注册'
     }
   }
-];
+]
 
 const router = new Router({
   routes
 })
 
+if (localStorage.getItem('token')) {
+  //页面进行刷新，重新赋值 store.user.token
+  store.commit({
+    type: 'SET_TOKEN',
+    token: localStorage.getItem('token')
+  })
+}
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    // 页面需要登录权限
+    if (store.getters.token) {
+      // 获取token
+      next()
+    } else {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    }
+  } else {
+    next()
+  }
+})
+
+export default router

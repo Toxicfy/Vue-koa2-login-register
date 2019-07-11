@@ -3,6 +3,8 @@ import store from './store';
 import * as type from './store/constant';
 import router from './router'
 
+axios.defaults.baseURL = 'localhost:3000/'
+
 // 添加请求拦截器
 axios.interceptors.request.use(
     config => {
@@ -33,8 +35,8 @@ axios.interceptors.response.use(
                 default:
                     break;
             }
+          return new Promise.reject(err.response.data)
         }
-        return new Promise.reject(err.response.data)
     }
 )
 

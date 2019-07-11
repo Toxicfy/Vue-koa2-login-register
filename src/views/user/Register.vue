@@ -4,19 +4,6 @@
       <el-form-item prop="username">
         <el-input v-model="registerData.username" type="text" placeholder="请输入用户名" />
       </el-form-item>
-      <el-form-item prop="email">
-        <el-input v-model="registerData.email" type="text" placeholder="请输入邮箱" />
-      </el-form-item>
-      <el-form-item>
-        <el-row :gutter="20">
-          <el-col :span="18">
-            <el-input v-model="registerData.code" type="" placeholder="验证码" />
-          </el-col>
-          <el-col :span="6">
-            <el-button type="primary">获取验证码</el-button>
-          </el-col>
-        </el-row>
-      </el-form-item>
       <el-form-item prop="password">
         <el-input v-model="registerData.password" type="password" placeholder="请输入密码" />
       </el-form-item>
@@ -41,19 +28,13 @@
 </template>
 
 <script>
-  import {constants} from 'crypto';
-
+import { constants } from 'crypto';
   export default {
     name: "Login",
     data: function () {
       const rules = {
         username: (rule, value, callback) => {
           return !value ? callback(new Error('用户名不能为空')) : callback();
-        },
-        email: (rules, value, callback) => {
-          const reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
-          const isMatch = value.match(reg);
-          return !isMatch ? callback(new Error('请输入有效的邮箱')) : callback()
         },
         password: (rule, value, callback) => {
           return !value ? callback(new Error('密码不能为空')) : callback();
@@ -70,7 +51,6 @@
         //自定义验证规则
         rules: {
           username: [{validator: rules.username, trigger: 'blur'}],
-          email: [{validator: rules.email, trigger: 'blur'}],
           password: [{validator: rules.password, trigger: 'blur'}],
           rePassword: [{validator: rules.rePassword, trigger: 'blur'}],
         },
@@ -87,7 +67,18 @@
     methods: {
       submitRegisterForm(name) {
         this.$refs[name].validate(result => {
-          console.log(result)
+          if(result){
+            this.$axios({
+              method: 'post',
+              url: 'http://localhost:3000/api/register',
+              data: {
+                username: this.registerData.username,
+              password: this.registerData.password
+              }
+            }).then((res) => {
+
+            })
+          }
         })
       },
       resetRegisterForm(name) {
@@ -107,7 +98,7 @@
 
   .register-form {
     width: 500px;
-    transform: translateY(-20%);
+    transform: translateY(-5vh);
     padding: 30px 20px;
     box-shadow: 0 0 5px #c4c1c1;
     border-radius: 8px;

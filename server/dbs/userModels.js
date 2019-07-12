@@ -1,5 +1,11 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const URL = require('./config').URL
+
+mongoose.connect(URL, {
+  useNewUrlParser: true,
+  useCreateIndex: true
+})
 
 const UserSchema = new Schema({
   username: {
@@ -9,11 +15,8 @@ const UserSchema = new Schema({
   },
   password: {
     type: String,
-    required: true
-  },
-  token: {
-    type: String,
-    required: true
+    required: true,
+    set: val => require('bcrypt').hashSync(val, 10)
   }
 })
 

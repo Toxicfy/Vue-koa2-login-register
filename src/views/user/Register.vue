@@ -73,10 +73,10 @@ import { constants } from 'crypto';
               url: 'http://localhost:3000/api/register',
               data: {
                 username: this.registerData.username,
-              password: this.registerData.password
+                password: this.registerData.password
               }
             }).then((res) => {
-
+              console.log(res)
             })
           }
         })

@@ -2,18 +2,19 @@
   <div class="container">
     <el-form ref="registerForm" :rules="rules" class="register-form" :model="registerData">
       <el-form-item prop="username">
-        <el-input v-model="registerData.username" type="text" placeholder="请输入用户名" />
+        <el-input v-model="registerData.username" type="text" placeholder="请输入用户名"/>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input v-model="registerData.password" type="password" placeholder="请输入密码" />
+        <el-input v-model="registerData.password" type="password" placeholder="请输入密码"/>
       </el-form-item>
       <el-form-item prop="rePassword">
-        <el-input v-model="registerData.rePassword" type="password" placeholder="请再次输入密码" />
+        <el-input v-model="registerData.rePassword" type="password" placeholder="请再次输入密码"/>
       </el-form-item>
       <el-form-item>
         <el-row :gutter="20">
           <el-col :span="18">
-            <el-button type="primary" class="register-button" @click="submitRegisterForm('registerForm')">注 册</el-button>
+            <el-button type="primary" class="register-button" @click="submitRegisterForm('registerForm')">注 册
+            </el-button>
           </el-col>
           <el-col :span="6">
             <el-button type="info" class="register-button" @click="resetRegisterForm('registerForm')">重 置</el-button>
@@ -28,7 +29,8 @@
 </template>
 
 <script>
-import { constants } from 'crypto';
+  import {constants} from 'crypto';
+
   export default {
     name: "Login",
     data: function () {
@@ -67,7 +69,7 @@ import { constants } from 'crypto';
     methods: {
       submitRegisterForm(name) {
         this.$refs[name].validate(result => {
-          if(result){
+          if (result) {
             this.$axios({
               method: 'post',
               url: 'http://localhost:3000/api/register',
@@ -76,7 +78,14 @@ import { constants } from 'crypto';
                 password: this.registerData.password
               }
             }).then((res) => {
-              console.log(res)
+              console.log(res);
+              if (res.data) {
+                this.$message({
+                  showClose: true,
+                  message: res.data.message,
+                  type: res.data.code === 0 ? 'success' : 'error'
+                });
+              }
             })
           }
         })
@@ -89,33 +98,33 @@ import { constants } from 'crypto';
 </script>
 
 <style lang="scss" scoped>
-.container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  .container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  .register-form {
-    width: 500px;
-    transform: translateY(-5vh);
-    padding: 30px 20px;
-    box-shadow: 0 0 5px #c4c1c1;
-    border-radius: 8px;
+    .register-form {
+      width: 500px;
+      transform: translateY(-5vh);
+      padding: 30px 20px;
+      box-shadow: 0 0 5px #c4c1c1;
+      border-radius: 8px;
 
-    .register-button {
-      width: 100%;
-    }
+      .register-button {
+        width: 100%;
+      }
 
-    .login-link {
-      cursor: pointer;
-      text-decoration: none;
+      .login-link {
+        cursor: pointer;
+        text-decoration: none;
 
-      span {
-        font-size: 13px;
-        color: #990505;
+        span {
+          font-size: 13px;
+          color: #990505;
+        }
       }
     }
   }
-}
 </style>

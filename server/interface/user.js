@@ -23,7 +23,7 @@ router.post('/api/register', async ctx => {
   if (isRegister.length > 0) {
     ctx.body = {
       code: -1,
-      msg: '该用户名已被注册'
+      message: '该用户名已被注册'
     }
     return
   }

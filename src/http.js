@@ -11,7 +11,7 @@ axios.interceptors.request.use(
     config => {
         // 如果存在token的话，则每个http header都加上
         if (localStorage.getItem('token')) {
-            config.headers.Authorization = `token ${store.getters.token}`
+            config.headers.Authorization = `Bearer ${store.getters.token}`
         }
         return config
     },

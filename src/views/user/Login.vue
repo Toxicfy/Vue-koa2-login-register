@@ -26,6 +26,7 @@
 
 
 <script>
+import * as type from '../../store/constant'
   export default {
     name: 'Login',
     data() {
@@ -50,7 +51,26 @@
       submitUserForm(formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            console.log(this.userForm);
+            this.$axios({
+              url:'http://localhost:3000/api/login',
+              method: "post",
+              data: this.userForm,
+            }).then(res =>{
+              this.$message({
+                showClose: true,
+                message: res.data.message,
+                type: res.data.code === 0 ? 'info' : 'warning'
+              });
+              if(res.data.code === 0){
+                this.$store.commit({
+                  type: type.SET_TOKEN,
+                  token: res.data.token
+                })
+                this.$nextTick(() => {
+                  this.$router.push('/manage')
+                })
+              }
+            })
 
           } else {
             this.$message({

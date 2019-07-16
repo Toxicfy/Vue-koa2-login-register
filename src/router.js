@@ -52,9 +52,12 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) {
     // 页面需要登录权限
     if (store.getters.token) {
-      // 获取token
       next()
     } else {
+      Vue.prototype.$message({
+        type: 'warning',
+        message: '认证过期，需要重新登录'
+      })
       next({
         path: '/login',
         query: { redirect: to.fullPath }

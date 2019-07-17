@@ -1,19 +1,18 @@
-const Koa = require('koa')
 const Router = require('koa-router')
-const bodyParser = require('koa-bodyparser')
-const cors = require('koa2-cors')
 const User = require('../dbs/userModels').Users
 const createToken = require('../token/createToken')
-const app = new Koa()
+const validateToken = require('../token/validateToken')
 const router = new Router()
 
-// 使用ctx.body解析中间件
-app.use(bodyParser())
-app.use(cors())
-
-router.get('/api/test', async ctx => {
-  ctx.body = {
-    message: 'test'
+// 测试 token 验证
+router.get('/api/test', validateToken, async ctx => {
+  try {
+    ctx.body = {
+      message: '测试成功',
+      code: 0
+    }
+  } catch (error) {
+    console.log(error)
   }
 })
 
@@ -60,7 +59,6 @@ router.post('/api/login', async ctx => {
   const isPasswordValid = require('bcrypt').compareSync(password, user.password)
   if (isPasswordValid) {
     const token = createToken(user._id)
-    console.log(token)
     ctx.body = {
       token: token,
       message: '登录成功',
@@ -69,14 +67,6 @@ router.post('/api/login', async ctx => {
   }
 })
 
-// 使用路由中间件
-app.use(router.routes()).use(router.allowedMethods())
-app.use(async (ctx, next) => {
-  ctx.set('Access-Control-Allow-Origin', '*')
-  ctx.set('Access-Control-Allow-Methods', 'PUT,DELETE,POST,GET')
-  await next()
-})
-
-app.listen(3000, () => {
-  console.log('server is running at port 3000')
-})
+module.exports = {
+  router
+}

@@ -48,6 +48,7 @@ if (localStorage.getItem('token')) {
   })
 }
 
+// 页面跳转权限控制
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) {
     // 页面需要登录权限

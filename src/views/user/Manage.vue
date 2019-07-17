@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-button class="info" @click="testHeader" />
+    <el-button class="info" @click="testHeader">测试</el-button>
+    <el-button class="warning" @click="clearHeader">清除</el-button>
   </div>
 </template>
 
@@ -20,6 +21,10 @@ export default {
         }).then((res) => {
           this.$message(res.data.message)
         })
+      },
+      clearHeader(){
+        localStorage.removeItem('token');
+        this.testHeader()
       }
     }
 

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const PRIVATE_KEY = 'private_key'
+const { PRIVATE_KEY } = require('./key')
 
 module.exports = id => {
   const token = jwt.sign(

@@ -52,7 +52,7 @@ import * as type from '../../store/constant'
         this.$refs[formName].validate(valid => {
           if (valid) {
             this.$axios({
-              url:'http://localhost:3000/api/login',
+              url:'/login',
               method: "post",
               data: this.userForm,
             }).then(res =>{

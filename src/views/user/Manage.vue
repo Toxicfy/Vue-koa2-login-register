@@ -16,10 +16,14 @@ export default {
     methods:{
       testHeader(){
         this.$axios({
-         url: 'http://localhost:3000/api/test',
+         url: '/test',
          method: 'get'
         }).then((res) => {
-          this.$message(res.data.message)
+          this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: res.data.code === 0 ? 'success' : 'warning'
+          })
         })
       },
       clearHeader(){

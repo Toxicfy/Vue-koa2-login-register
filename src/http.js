@@ -3,7 +3,7 @@ import store from './store'
 import * as type from './store/constant'
 import router from './router'
 
-axios.defaults.baseURL = 'http://localhost:3000/'
+axios.defaults.baseURL = 'http://localhost:3000/api/'
 axios.defaults.headers['Content-Type'] = 'application/json'
 
 // 添加请求拦截器
